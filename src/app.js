@@ -52,14 +52,17 @@ const compareIP = (latestIP) => {
   });
 
   if (data.currentIP !== latestIP) {
+    currentDateTime = new Date().toLocaleString('en-GB', {
+      timeZone: 'Europe/London',
+    });
     console.info('<----- IP Chagned ----->');
-    console.info('Date: ', new Date());
-    console.info('New IP: ', latestIP);
+    console.info('Date & time of change: ', currentDateTime);
+    console.info('Old Date & time: ', data.detectedDate);
+    console.info('Latest IP: ', latestIP);
     console.info('Old IP: ', data.currentIP);
-    console.info('Old Date: ', data.detectedDate);
     console.info('<--------------------->');
     data.currentIP = latestIP;
-    data.detectedDate = new Date();
+    data.detectedDate = currentDateTime;
     storeNewIP();
   }
 };
