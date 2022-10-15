@@ -78,8 +78,8 @@ const sendPushoverMsg = (ip, currentDateTime) => {
   })
   
   var msg = {
-    message: 'Your IP is currently ' + ip + '.',
-    title: "Your current IP",
+    message: 'Your IP is ' + ip + '.',
+    title: "Your IP address",
     sound: 'magic',
     device: 'iphone11ProMax',
     priority: 1
