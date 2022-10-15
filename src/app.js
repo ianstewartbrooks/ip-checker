@@ -3,7 +3,7 @@ const axios = require('axios');
 const fs = require('fs');
 const Push = require('pushover-notifications')
 
-const ipDataFile = '/data/ip.json';
+const ipDataFile = './ip.json';
 
 let data = {
   currentIP: '',
@@ -11,15 +11,6 @@ let data = {
 };
 
 const getStoredData = (cb) => {
-  try {
-    if (!fs.existsSync(ipDataFile)) {
-      fs.copyFileSync('./ip.json', ipDataFile)
-      console.log("Created data file...");
-    }
-  } catch(err) {
-    console.error(err)
-  }
-
   fs.readFile(ipDataFile, (err, fileData) => {
     if (err) {
       return cb && cb(err);
