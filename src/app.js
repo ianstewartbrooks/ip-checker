@@ -1,6 +1,9 @@
 const cron = require('node-cron');
 const axios = require('axios');
 const fs = require('fs');
+const Push = require('pushover-notifications')
+
+const ipDataFile = '/data/ip.json';
 
 let data = {
   currentIP: '',
@@ -8,7 +11,16 @@ let data = {
 };
 
 const getStoredData = (cb) => {
-  fs.readFile('./ip.json', (err, fileData) => {
+  try {
+    if (!fs.existsSync(ipDataFile)) {
+      fs.copyFileSync('./ip.json', ipDataFile)
+      console.log("Created data file...");
+    }
+  } catch(err) {
+    console.error(err)
+  }
+
+  fs.readFile(ipDataFile, (err, fileData) => {
     if (err) {
       return cb && cb(err);
     }
@@ -23,7 +35,7 @@ const getStoredData = (cb) => {
 
 const storeNewIP = () => {
   // Our IP address has changed so lets store it
-  fs.writeFile('./ip.json', JSON.stringify(data), (err) => {
+  fs.writeFile(ipDataFile, JSON.stringify(data), (err) => {
     if (err) console.log('Error writing file:', err);
   });
 };
@@ -55,16 +67,40 @@ const compareIP = (latestIP) => {
     currentDateTime = new Date().toLocaleString('en-GB', {
       timeZone: 'Europe/London',
     });
-    console.info('<----- IP Chagned ----->');
+    console.info('<----- Current IP ----->');
     console.info('Date & time of change: ', currentDateTime);
-    console.info('Old Date & time: ', data.detectedDate);
     console.info('Latest IP: ', latestIP);
+    console.info('Old Date & time: ', data.detectedDate);
     console.info('Old IP: ', data.currentIP);
     console.info('<--------------------->');
     data.currentIP = latestIP;
     data.detectedDate = currentDateTime;
     storeNewIP();
+    sendPushoverMsg(latestIP, currentDateTime);
   }
+};
+
+const sendPushoverMsg = (ip, currentDateTime) => {
+  var p = new Push( {
+    user: process.env.PUUserKey,
+    token: process.env.PUToken,
+  })
+  
+  var msg = {
+    message: 'Your IP is currently ' + ip + '.',
+    title: "Your current IP",
+    sound: 'magic',
+    device: 'iphone11ProMax',
+    priority: 1
+  }
+  
+  p.send( msg, function( err, result ) {
+    if ( err ) {
+      throw err
+    }
+  
+    console.log("Message sent to Pushover", result )
+  })
 };
 
 // Schedule tasks to be run on the server.
