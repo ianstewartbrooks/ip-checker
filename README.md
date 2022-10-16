@@ -1,5 +1,7 @@
 # ip-checker
 
-A docker container that contains a small node appliction which monitors any changes in the IP my ISP allocate me.
+A docker container that contains a small node appliction which monitors any changes in the IP my ISP allocates me.
 
-I wrote this app because I lose my internet connection regularly so this helps me keep a log of the outage. I could of course do this by just looking at the router logs, but that involves lots of scrolling through text and isn't much of a learning process than writing this small dockerised app!
+The application informs me, via a Pushover notification on my phone, whenever it detects my IP has changed.
+
+To use this application you need an Application Token and a User Key from your Pushover account which then can be put in the the environment variables for the application to use.
