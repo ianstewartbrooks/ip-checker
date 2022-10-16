@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const axios = require('axios');
 const fs = require('fs');
-const { sendPushoverMsg } = require('./pushover');
+const { sendPushoverMsg } = require('./modules/pushover');
 
 const ipDataFile = './ip.json';
 
