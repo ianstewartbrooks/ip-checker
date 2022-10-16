@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const axios = require('axios');
 const fs = require('fs');
-const Push = require('pushover-notifications')
+const { sendPushoverMsg } = require('./pushover');
 
 const ipDataFile = './ip.json';
 
@@ -67,31 +67,8 @@ const compareIP = (latestIP) => {
     data.currentIP = latestIP;
     data.detectedDate = currentDateTime;
     storeNewIP();
-    sendPushoverMsg(latestIP, currentDateTime);
+    sendPushoverMsg(latestIP);
   }
-};
-
-const sendPushoverMsg = (ip, currentDateTime) => {
-  var p = new Push( {
-    user: process.env.PUUserKey,
-    token: process.env.PUToken,
-  })
-  
-  var msg = {
-    message: 'Your IP is ' + ip + '.',
-    title: "Your IP address",
-    sound: 'magic',
-    device: 'iphone11ProMax',
-    priority: 1
-  }
-  
-  p.send( msg, function( err, result ) {
-    if ( err ) {
-      throw err
-    }
-  
-    console.log("Message sent to Pushover", result )
-  })
 };
 
 // Schedule tasks to be run on the server.
