@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  node-ip-checker:
+    build: 
+      context: .
+    image: "node-ip-checker:latest"
+    container_name: node-ip-checker
+    environment:
+      - PUToken=${Token}
+      - PUUserKey=${UserKey}
+    restart: always
