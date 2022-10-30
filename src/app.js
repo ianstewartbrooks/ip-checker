@@ -68,9 +68,9 @@ const compareIP = (latestIP) => {
     data.currentIP = latestIP;
     data.detectedDate = currentDateTime;
     storeNewIP();
-    sendPushoverMsg(latestIP);
+    // sendPu         shoverMsg(latestIP);
   } else {
-    console.info("Last checked at ", currentDateTime);
+    console.info("Last checked on ", currentDateTime);
   }
 }
 
