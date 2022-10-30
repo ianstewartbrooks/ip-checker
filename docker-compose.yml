@@ -7,6 +7,6 @@ services:
     image: "node-ip-checker:latest"
     container_name: node-ip-checker
     environment:
-      - PUToken=${Token}
-      - PUUserKey=${UserKey}
+      - PUToken=${PUToken}
+      - PUUserKey=${PUUserKey}
     restart: always
