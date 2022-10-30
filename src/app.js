@@ -10,16 +10,16 @@ let data = {
   detectedDate: new Date(),
 };
 
-const getStoredData = (cb) => {
+const getStoredData = (callBack) => {
   fs.readFile(ipDataFile, (err, fileData) => {
     if (err) {
-      return cb && cb(err);
+      return callBack && callBack(err);
     }
     try {
       const object = JSON.parse(fileData);
-      return cb && cb(null, object);
+      return callBack && callBack(null, object);
     } catch (err) {
-      return cb && cb(err);
+      return callBack && callBack(err);
     }
   });
 };
@@ -68,14 +68,14 @@ const compareIP = (latestIP) => {
     data.currentIP = latestIP;
     data.detectedDate = currentDateTime;
     storeNewIP();
-    // sendPu         shoverMsg(latestIP);
+    sendPushoverMsg(latestIP);
   } else {
     console.info("Last checked on ", currentDateTime);
   }
 }
 
 // Schedule tasks to be run on the server.
-cron.schedule('*/5 * * * *', function () {
+cron.schedule('*/1 * * * *', function () {
   // Every 5 minutes check the IP to see if it has changed.
   getIPUsingAPI();
 });
