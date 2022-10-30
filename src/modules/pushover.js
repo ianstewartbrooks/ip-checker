@@ -1,9 +1,15 @@
 const Push = require('pushover-notifications')
 
 const sendPushoverMsg = (ip, currentDateTime) => {
+    const user = process.env.PUUserKey
+    const token = process.env.PUToken
+
+    console.log("Token: ", token);
+    console.log("User Key: ", user);
+
     const p = new Push( {
-      user: process.env.PUUserKey,
-      token: process.env.PUToken,
+      user: user,
+      token: token,
     })
     
     const msg = {
