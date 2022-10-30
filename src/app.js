@@ -54,10 +54,11 @@ const compareIP = (latestIP) => {
     }
   });
 
+  currentDateTime = new Date().toLocaleString('en-GB', {
+    timeZone: 'Europe/London',
+  });
+
   if (data.currentIP !== latestIP) {
-    currentDateTime = new Date().toLocaleString('en-GB', {
-      timeZone: 'Europe/London',
-    });
     console.info('<----- Current IP ----->');
     console.info('Date & time of change: ', currentDateTime);
     console.info('Latest IP: ', latestIP);
@@ -68,8 +69,10 @@ const compareIP = (latestIP) => {
     data.detectedDate = currentDateTime;
     storeNewIP();
     sendPushoverMsg(latestIP);
+  } else {
+    console.info("Last checked at ", currentDateTime);
   }
-};
+}
 
 // Schedule tasks to be run on the server.
 cron.schedule('* * * * *', function () {
