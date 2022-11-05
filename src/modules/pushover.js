@@ -4,7 +4,7 @@ const sendPushoverMsg = (ip, currentDateTime) => {
     const user = process.env.PUUserKey
     const token = process.env.PUToken
 
-    const p = new Push( {
+    const pushover = new Push( {
       user: user,
       token: token,
     })
@@ -17,7 +17,7 @@ const sendPushoverMsg = (ip, currentDateTime) => {
       priority: 1
     }
     
-    p.send( msg, function( err, result ) {
+    pushover.send( msg, function( err, result ) {
       if ( err ) {
         throw err
       }
