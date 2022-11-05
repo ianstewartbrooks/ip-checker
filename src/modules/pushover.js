@@ -4,10 +4,6 @@ const sendPushoverMsg = (ip, currentDateTime) => {
     const user = process.env.PUUserKey
     const token = process.env.PUToken
 
-    console.info("Pushover information:")
-    console.info("Application Token: ", token);
-    console.info("User Key: ", user);
-
     const p = new Push( {
       user: user,
       token: token,
