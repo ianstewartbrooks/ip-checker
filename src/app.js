@@ -1,12 +1,12 @@
-const cron = require('node-cron');
-const axios = require('axios');
-const fs = require('fs');
-const { sendPushoverMsg } = require('./modules/pushover');
+const cron = require("node-cron");
+const axios = require("axios");
+const fs = require("fs");
+const { sendPushoverMsg } = require("./modules/pushover");
 
-const ipDataFile = './ip.json';
+const ipDataFile = "./ip.json";
 
 let data = {
-  currentIP: '',
+  currentIP: "",
   detectedDate: new Date(),
 };
 
@@ -27,14 +27,14 @@ const getStoredData = (callBack) => {
 const storeNewIP = () => {
   // Our IP address has changed so lets store it
   fs.writeFile(ipDataFile, JSON.stringify(data), (err) => {
-    if (err) console.log('Error writing file:', err);
+    if (err) console.log("Error writing file:", err);
   });
 };
 
 const getIPUsingAPI = () => {
   // Get the IP from the API
   axios
-    .get('https://api.ipify.org')
+    .get("https://api.ipify.org")
     .then(function (response) {
       // handle success
       compareIP(response.data);
@@ -54,17 +54,17 @@ const compareIP = (latestIP) => {
     }
   });
 
-  currentDateTime = new Date().toLocaleString('en-GB', {
-    timeZone: 'Europe/London',
+  currentDateTime = new Date().toLocaleString("en-GB", {
+    timeZone: "Europe/London",
   });
 
   if (data.currentIP !== latestIP) {
-    console.info('<----- Current IP ----->');
-    console.info('Date & time of change: ', currentDateTime);
-    console.info('Latest IP: ', latestIP);
-    console.info('Old Date & time: ', data.detectedDate);
-    console.info('Old IP: ', data.currentIP);
-    console.info('<--------------------->');
+    console.info("<----- Current IP ----->");
+    console.info("Date & time of change: ", currentDateTime);
+    console.info("Latest IP: ", latestIP);
+    console.info("Old Date & time: ", data.detectedDate);
+    console.info("Old IP: ", data.currentIP);
+    console.info("<--------------------->");
     data.currentIP = latestIP;
     data.detectedDate = currentDateTime;
     storeNewIP();
@@ -72,10 +72,10 @@ const compareIP = (latestIP) => {
   } else {
     console.info("Last checked on ", currentDateTime);
   }
-}
+};
 
 // Schedule tasks to be run on the server.
-cron.schedule('*/5 * * * *', () => {
-  // Every 5 minutes check the IP to see if it has changed.
+cron.schedule("* */1 * * *", () => {
+  // Every hour check the IP to see if it has changed.
   getIPUsingAPI();
 });
