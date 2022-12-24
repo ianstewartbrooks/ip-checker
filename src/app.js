@@ -75,7 +75,7 @@ const compareIP = (latestIP) => {
 };
 
 // Schedule tasks to be run on the server.
-cron.schedule("* */1 * * *", () => {
+cron.schedule("*/1 * * * *", () => {
   // Every hour check the IP to see if it has changed.
   getIPUsingAPI();
 });
